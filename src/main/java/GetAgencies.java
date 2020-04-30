@@ -1,6 +1,8 @@
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
@@ -20,7 +22,9 @@ public class GetAgencies implements RequestHandler<ApiGatewayRequest, ApiGateway
 		LambdaLogger logger = context.getLogger();
 		try {
 			List<Agency> agencies = agentService.getAgencies();
-			return new ApiGatewayProxyResponse(200, null, new Gson().toJson(agencies));
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put("Access-Control-Allow-Origin", "*");
+			return new ApiGatewayProxyResponse(200, headers, new Gson().toJson(agencies));
 		} catch (SQLException e) {
 			logger.log(e.getMessage());
 			return new ApiGatewayProxyResponse(400, null, null);
