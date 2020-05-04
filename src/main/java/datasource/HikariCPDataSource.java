@@ -15,6 +15,7 @@ public class HikariCPDataSource {
 		config.setJdbcUrl(System.getenv("AAA_DATASOURCE_URL"));
 		config.setUsername(System.getenv("AAA_DATASOURCE_USERNAME"));
 		config.setPassword(System.getenv("AAA_DATASOURCE_PASSWORD"));
+		config.setMaximumPoolSize(100);
 		config.addDataSourceProperty("cachePrepStmts", "true");
 		config.addDataSourceProperty("prepStmtCacheSize", "250");
 		config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
@@ -23,6 +24,8 @@ public class HikariCPDataSource {
 	}
 
 	public static Connection getConnection() throws SQLException {
-		return ds.getConnection();
+		Connection connection = ds.getConnection();
+		connection.setAutoCommit(false);
+		return connection;
 	}
 }
