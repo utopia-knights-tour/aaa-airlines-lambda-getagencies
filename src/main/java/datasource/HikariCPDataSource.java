@@ -15,10 +15,13 @@ public class HikariCPDataSource {
 		config.setJdbcUrl(System.getenv("AAA_DATASOURCE_URL"));
 		config.setUsername(System.getenv("AAA_DATASOURCE_USERNAME"));
 		config.setPassword(System.getenv("AAA_DATASOURCE_PASSWORD"));
+		config.setMaximumPoolSize(1);
+		config.setConnectionTimeout(30000);
+		config.setIdleTimeout(30000);
+		config.setAutoCommit(false);
 		config.addDataSourceProperty("cachePrepStmts", "true");
 		config.addDataSourceProperty("prepStmtCacheSize", "250");
 		config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-		config.setAutoCommit(false);
 		ds = new HikariDataSource(config);
 	}
 
